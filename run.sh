@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-docker run -it --rm --name house-prices-notebook -p 8888:8888 \
-house-prices-back
+docker run -it --rm --name house-prices-notebook -e="PORT=8888" -p 8889:8888 \
+house-prices-notebook

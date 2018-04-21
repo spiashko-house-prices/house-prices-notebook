@@ -8,16 +8,22 @@ RUN /opt/conda/bin/conda install -y --quiet tensorflow
 RUN /opt/conda/bin/conda install -y --quiet keras
 
 RUN useradd -m myuser
-USER myuser
+
 
 WORKDIR /home/myuser
 
-COPY ./notebook notebook
+COPY ./notebook/data_analise_and_learning.ipynb notebook/data_analise_and_learning.ipynb
 COPY ./input input
+
+RUN /opt/conda/bin/jupyter trust notebook/data_analise_and_learning.ipynb
+
+RUN chown -R myuser:myuser /home/myuser/notebook
 
 WORKDIR /home/myuser/notebook
 
 EXPOSE 8888
 
-CMD /opt/conda/bin/jupyter notebook run.py
+USER myuser
+
+CMD /opt/conda/bin/jupyter notebook --ip='*' --notebook-dir=/home/myuser/notebook --port=$PORT --no-browser
 #CMD bash
