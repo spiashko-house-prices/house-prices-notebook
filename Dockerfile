@@ -9,7 +9,6 @@ RUN /opt/conda/bin/conda install -y --quiet keras
 
 RUN useradd -m myuser
 
-
 WORKDIR /home/myuser
 
 COPY ./notebook/data_analise_and_learning.ipynb notebook/data_analise_and_learning.ipynb
@@ -21,9 +20,13 @@ RUN chown -R myuser:myuser /home/myuser/notebook
 
 WORKDIR /home/myuser/notebook
 
-EXPOSE 8888
-
 USER myuser
 
-CMD /opt/conda/bin/jupyter notebook --ip='*' --notebook-dir=/home/myuser/notebook --port=$PORT --no-browser
+RUN /opt/conda/bin/jupyter notebook --generate-config
+
+COPY jupyter_notebook_config.conf /home/myuser/.jupyter/jupyter_notebook_config.py
+
+EXPOSE $PORT
+
+CMD /opt/conda/bin/jupyter notebook
 #CMD bash
