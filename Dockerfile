@@ -12,14 +12,11 @@ RUN useradd -m myuser
 
 WORKDIR /home/myuser
 
-COPY ./notebook/data_analise.ipynb notebook/data_analise.ipynb
-COPY ./notebook/learning.ipynb notebook/learning.ipynb
+COPY ./notebook/ notebook/
 RUN mkdir /home/myuser/.jupyter
 COPY jupyter_notebook_config.conf /home/myuser/.jupyter/jupyter_notebook_config.py
 
 WORKDIR /home/myuser/
-RUN /opt/conda/bin/jupyter trust notebook/data_analise.ipynb
-RUN /opt/conda/bin/jupyter trust notebook/learning.ipynb
 
 RUN chown -R myuser:myuser /home/myuser
 
